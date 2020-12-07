@@ -5,13 +5,13 @@ const ivi = require('./providers/ivi');
 
 const bot = new Telegraf(config.BOT_TOKEN);
 
-const providerNames = {
+const PROVIDER_NAMES = {
   kinopoisk: 'кинопоиске',
   ivi: 'иви',
 };
 
 bot.start((ctx) => {
-  ctx.reply('Привет! Напиши название фильма, и я подскажу, где лучше его смотреть.');
+  ctx.reply('👀 Привет! Напиши название фильма, и я подскажу, где лучше его смотреть. 😎📺');
 });
 
 bot.on('text', async (ctx) => {
@@ -22,10 +22,8 @@ bot.on('text', async (ctx) => {
     ivi.getFilms(text)
   ]);
 
-  //console.log(kinopoiskResult, iviResult);
-
   if (kinopoiskResult.length === 0 && iviResult.length === 0) {
-    return ctx.reply('Фильм не найден!😢');
+    return ctx.reply('Фильм не найден! 😢');
   }
 
   const prices = {};
@@ -47,7 +45,7 @@ bot.on('text', async (ctx) => {
 
   const message = Object.values(prices)
     .map((item) => {
-      let text = `🎦 ${item.title} (${item.year} г.)\n\nМожно посмотреть на ${providerNames[item.provider]}`;
+      let text = `🎦 ${item.title} (${item.year} г.)\n\nМожно посмотреть на ${PROVIDER_NAMES[item.provider]}`;
 
       text += item.price ? ` за ${item.price} рублей.` : ' по подписке.';
 
